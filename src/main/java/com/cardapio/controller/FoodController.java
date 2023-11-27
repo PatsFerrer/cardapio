@@ -30,4 +30,20 @@ public class FoodController {
         List<FoodResponseDTO> foodList = repository.findAll().stream().map(FoodResponseDTO::new).toList();
         return foodList;
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteFood(@PathVariable Long id){
+        repository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Food updateFood(@PathVariable Long id, @RequestBody Food foodDetails){
+        Food food = repository.findById(id).get();
+
+        food.setTitle(foodDetails.getTitle());
+        food.setPrice(foodDetails.getPrice());
+        food.setImage(foodDetails.getImage());
+
+        return repository.save(food);
+    }
 }
